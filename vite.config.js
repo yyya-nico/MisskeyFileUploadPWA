@@ -20,27 +20,33 @@ export default {
             "icons": [
                 {
                     "src": "icon/icon-512x512.png",
-                    "sizes": "512x512"
+                    "sizes": "512x512",
+                    "purpose": "maskable"
                 },
                 {
                     "src": "icon/icon-192x192.png",
-                    "sizes": "192x192"
+                    "sizes": "192x192",
+                    "purpose": "maskable"
                 },
                 {
                     "src": "icon/icon-144x144.png",
-                    "sizes": "144x144"
+                    "sizes": "144x144",
+                    "purpose": "maskable"
                 },
                 {
                     "src": "icon/icon-96x96.png",
-                    "sizes": "96x96"
+                    "sizes": "96x96",
+                    "purpose": "maskable"
                 },
                 {
                     "src": "icon/icon-72x72.png",
-                    "sizes": "72x72"
+                    "sizes": "72x72",
+                    "purpose": "maskable"
                 },
                 {
                     "src": "icon/icon-48x48.png",
-                    "sizes": "48x48"
+                    "sizes": "48x48",
+                    "purpose": "maskable"
                 }
             ],
             "share_target": {
