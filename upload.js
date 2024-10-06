@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     navigator.serviceWorker.addEventListener('message', async e => {
         if (e.origin === location.origin) {
-            const fileInfo = getCachedFile(e.data.fileName);
+            const fileInfo = await getCachedFile(e.data.fileName);
             files.push(fileInfo);
             attachFileItem(fileInfo);
             URL.revokeObjectURL(fileInfo.url);
