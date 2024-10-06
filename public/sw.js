@@ -30,7 +30,7 @@ self.addEventListener("fetch", (event) => {
                 return Response.redirect("upload", 303);
             })(),
         );
-    } else if (event.request.url.endsWith("callback")) {
+    } else if (event.request.url.includes("/callback")) {
         return fetch("index.html");
     }
   });
