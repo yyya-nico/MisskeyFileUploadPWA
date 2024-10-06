@@ -3,7 +3,8 @@ import { precacheAndRoute } from 'workbox-precaching';
 precacheAndRoute(self.__WB_MANIFEST);
 
 self.addEventListener("fetch", (event) => {
-    if (event.request.url.endsWith('upload') && event.request.method === 'POST') {
+    const url = new URL(event.request.url);
+    if (url.pathname.endsWith('/upload') && event.request.method === 'POST') {
         event.respondWith(
             (async () => {
                 const formData = await event.request.formData();
@@ -30,7 +31,7 @@ self.addEventListener("fetch", (event) => {
                 return Response.redirect("upload", 303);
             })(),
         );
-    } else if (event.request.url.includes("/callback")) {
+    } else if (url.pathname.endsWith("/callback")) {
         event.respondWith(fetch("index.html"));
     }
 });
