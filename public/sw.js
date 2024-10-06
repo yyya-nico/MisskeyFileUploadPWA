@@ -8,30 +8,29 @@ self.addEventListener("fetch", (event) => {
             (async () => {
                 const formData = await event.request.formData();
                 const files = formData.getAll("files");
-                if (!files.length) {   
-                    return Response.redirect("failed", 303);                 
+                if (!files.length) {
+                    return Response.redirect("failed", 303);
                 }
                 files.forEach(async file => {
                     const cache = await caches.open('upload-files');
                     const response = new Response(file, {
-                      headers: { 'Content-Type': file.type }
+                        headers: { 'Content-Type': file.type }
                     });
                     await cache.put(`upload/${file.name}`, response);
-                    
+
                     // 必要に応じてクライアントにメッセージを送る
                     self.clients.matchAll().then(clients => {
-                      clients.forEach(client => client.postMessage({
-                        fileName: file.name,
-                        fileUrl: `upload/${file.name}`
-                      }));
+                        clients.forEach(client => client.postMessage({
+                            fileName: file.name,
+                            fileUrl: `upload/${file.name}`
+                        }));
                     });
-          
+
                 });
                 return Response.redirect("upload", 303);
             })(),
         );
     } else if (event.request.url.includes("/callback")) {
-        return fetch("index.html");
+        event.respondWith(fetch("index.html"));
     }
-  });
-  
+});
