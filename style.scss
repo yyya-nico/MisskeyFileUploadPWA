@@ -1,0 +1,29 @@
+html {
+    color-scheme: light dark;
+}
+
+.unverified {
+    color: orangered;
+}
+
+.verified {
+    color: greenyellow;
+}
+
+.config {
+    display: none;
+}
+
+@media (display-mode: standalone){
+    .welcome {
+        display: none;
+    }
+
+    .config {
+        display: revert;
+    }
+
+    #install {
+        display: none;
+    }
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MisskeyファイルアップロードPWA</title>
+    <link rel="stylesheet" href="style.scss">
+    <script type="module" src="main.js"></script>
+</head>
+<body>
+    <header>
+        <h1>
+            <a href=".">MisskeyファイルアップロードPWA</a>
+        </h1>
+    </header>
+    <h2 class="welcome">MisskeyファイルアップロードPWAへようこそ</h2>
+    <h2 class="config">MisskeyファイルアップロードPWAの設定</h2>
+    <p class="welcome">
+        以下の項目を入力して、「インストール」ボタンを押してください。<br>
+        現時点ではAndroidのみ利用可能です。
+    </p>
+    <div class="form">
+        <fieldset>
+            <legend><label for="server">Misskeyの連携</label></legend>
+            <form name="server">
+                <input name="host" id="server" placeholder="misskey.io" required><button>認証</button>
+            </form>
+            <div id="verification">
+                お待ちください...
+            </div>
+        </fieldset>
+        <button id="install" disabled>インストール</button>
+    </div> 
+</body>
+</html>
