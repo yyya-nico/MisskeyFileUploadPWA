@@ -1,0 +1,2 @@
+# MisskeyファイルアップロードPWA
+Androidの共有からMisskeyサーバーのドライブにファイルをアップロードをできるようにするPWA。
