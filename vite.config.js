@@ -34,6 +34,11 @@ export default {
                     "purpose": "maskable"
                 },
                 {
+                    "src": "icon/icon-144x144a.png",
+                    "sizes": "144x144",
+                    "purpose": "any"
+                },
+                {
                     "src": "icon/icon-96x96.png",
                     "sizes": "96x96",
                     "purpose": "maskable"
