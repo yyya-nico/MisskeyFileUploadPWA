@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         obj.fileName;
         filesList.appendChild(li);
     };
-    window.addEventListener('message', async e => {
+    navigator.serviceWorker.addEventListener('message', async e => {
         if (e.origin === location.origin) {
             const fileInfo = getCachedFile(e.data.fileName);
             files.push(fileInfo);
