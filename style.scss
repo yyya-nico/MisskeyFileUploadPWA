@@ -10,7 +10,8 @@ html {
     color: greenyellow;
 }
 
-.config {
+.config,
+.form {
     display: none;
 }
 
@@ -19,7 +20,8 @@ html {
         display: none;
     }
 
-    .config {
+    .config,
+    .form {
         display: revert;
     }
 

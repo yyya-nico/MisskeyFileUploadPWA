@@ -17,9 +17,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         hostInput.value = sendTo.replace(/https?:\/\/|\//g, '');
         verification.classList.add('verified');
         verification.textContent = '✓認証済み';
-        if (installPromptEvent) {
-            installBtn.disabled = false;
-        }
     } else {
         verification.classList.add('unverified');
         verification.textContent = '✗未認証';
@@ -35,6 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.addEventListener('beforeinstallprompt', e => {
         e.preventDefault();
         installPromptEvent = e;
+        installBtn.disabled = false;
     });
 
     installBtn.addEventListener('click', () => {
