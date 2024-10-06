@@ -42,6 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     uploadBtn.addEventListener('click', () => {
+        uploadBtn.disabled = true;
+        let hasError = false;
         const url = `${sendTo}/api/drive/files/create`;
         files.forEach(file => {
             const form = new FormData();
@@ -62,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(data => {
                     if (data.error) {
                         alert(error.message + '\n\nエラーコード: ' + error.code);
+                        hasError = true;
                     }
                 })
                 .catch(e => {
@@ -70,5 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         files.length = 0;
         caches.delete('upload-files');
+        if (hasError) {
+            alert('アップロードに失敗しました。');
+        } else {
+            alert('アップロードが完了しました。');
+        }
     });
 });
