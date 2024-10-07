@@ -41,8 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
             URL.revokeObjectURL(fileInfo.url);
         }
     });
-    uploadBtn.addEventListener('click', () => {
+    uploadBtn.addEventListener('click', async () => {
         uploadBtn.disabled = true;
+        if (files.length === 0) {
+            alert('ファイルがありません。');
+            await caches.delete('upload-files');
+            return;
+        }
         let hasError = false;
         const url = `${sendTo}/api/drive/files/create`;
         files.forEach(file => {
@@ -72,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         });
         files.length = 0;
-        caches.delete('upload-files');
+        await caches.delete('upload-files');
         if (hasError) {
             alert('アップロードに失敗しました。');
         } else {
