@@ -21,6 +21,7 @@ self.addEventListener("fetch", (event) => {
 
                     // 必要に応じてクライアントにメッセージを送る
                     self.clients.matchAll().then(clients => {
+                        console.log(clients);
                         clients.forEach(client => client.postMessage({
                             fileName: file.name,
                             fileUrl: `upload/${file.name}`
