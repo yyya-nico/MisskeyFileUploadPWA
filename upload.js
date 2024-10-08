@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const getCachedFiles = async () => {
         const cache = await caches.open('upload-files');
         const files = [];
-        const regex = /filename*=UTF-8''(.*)/;
+        const regex = /filename\*=UTF-8''(.*)/;
         let index = 0;
         while (true) {
             const cachedResponse = await cache.match(`upload/${index}`);
