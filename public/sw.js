@@ -17,7 +17,7 @@ self.addEventListener("fetch", (event) => {
                     const response = new Response(file, {
                         headers: {
                             'Content-Type': file.type,
-                            'Content-Disposition': `inline; filename="${file.name}"`
+                            'Content-Disposition': `inline; filename*=UTF-8''${encodeURIComponent(file.name)}`
                         }
                     });
                     await cache.put(`upload/${index}`, response);
