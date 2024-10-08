@@ -15,7 +15,10 @@ self.addEventListener("fetch", (event) => {
                 const cache = await caches.open('upload-files');
                 files.forEach(async (file, index) => {
                     const response = new Response(file, {
-                        headers: { 'Content-Type': file.type }
+                        headers: {
+                            'Content-Type': file.type,
+                            'Content-Disposition': `inline; filename="${file.name}"`
+                        }
                     });
                     await cache.put(`upload/${index}`, response);
                 });

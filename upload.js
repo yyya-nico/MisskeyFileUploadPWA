@@ -10,16 +10,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     const getCachedFiles = async () => {
         const cache = await caches.open('upload-files');
         const files = [];
+        const regex = /filename="(.*)"/;
         let index = 0;
         while (true) {
             const cachedResponse = await cache.match(`upload/${index}`);
             if (!cachedResponse) break;
 
             const blob = await cachedResponse.blob();
+            const fileName = cachedResponse.headers.get('Content-Disposition').match(regex)[1];
             files.push({
                 blob,
                 url: URL.createObjectURL(blob),
                 type: blob.type,
+                name: fileName,
                 index
             });
 
@@ -28,16 +31,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         return files;
     }
-    const attachFileItem = obj => {
+    const attachFileItem = file => {
         const li = document.createElement('li');
         li.innerHTML = 
-        obj.type.startsWith('image/') ? [
+        file.type.startsWith('image/') ? [
         `<figure>`,
-        `<img src="${obj.url}" alt="${obj.index}" />`,
-        `<figcaption>${obj.index}, ${obj.type}</figcaption>`,
+        `<img src="${file.url}" alt="${file.name}" />`,
+        `<figcaption>${file.name}, ${file.type}</figcaption>`,
         `</figure>`].join('')
         :
-        `${obj.index}, ${obj.type}`;
+        `${file.name}, ${file.type}`;
         filesList.appendChild(li);
     };
 
@@ -58,10 +61,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         const url = `${sendTo}/api/drive/files/create`;
         files.forEach(file => {
             const form = new FormData();
+            form.append('i', token);
             form.append('force', 'true');
             form.append('file', file.blob);
+            form.append('name', file.name);
     
-            const options = {method: 'POST', headers: {Authorization: token}};
+            const options = {method: 'POST'};
     
             options.body = form;
     
