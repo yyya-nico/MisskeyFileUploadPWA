@@ -1,46 +1,52 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const baseUrl = import.meta.env.BASE_URL;
     const filesList = document.getElementById('files');
     const uploadBtn = document.getElementById('upload');
     const sendTo = localStorage.getItem('MFUP:sendTo');
     const token = localStorage.getItem('MFUP:auth');
-    const files = [];
     if (!sendTo || !token) {
         location.href = baseUrl;
     }
-    const getCachedFile = async fileName => {
+    const getCachedFiles = async () => {
         const cache = await caches.open('upload-files');
-        const cachedResponse = await cache.match(`upload/${fileName}`);
-        if (cachedResponse) {
+        const files = [];
+        let index = 0;
+        while (true) {
+            const cachedResponse = await cache.match(`upload/${index}`);
+            if (!cachedResponse) break;
+
             const blob = await cachedResponse.blob();
-            return {
-                fileName,
+            files.push({
                 blob,
                 url: URL.createObjectURL(blob),
-                type: blob.type
-            };
+                type: blob.type,
+                index
+            });
+
+            index++;
         }
+
+        return files;
     }
     const attachFileItem = obj => {
         const li = document.createElement('li');
         li.innerHTML = 
         obj.type.startsWith('image/') ? [
         `<figure>`,
-        `<img src="${obj.url}" alt="${obj.fileName}" />`,
-        `<figcaption>${obj.fileName}</figcaption>`,
+        `<img src="${obj.url}" alt="${obj.index}" />`,
+        `<figcaption>${obj.index}, ${obj.type}</figcaption>`,
         `</figure>`].join('')
         :
-        obj.fileName;
+        `${obj.index}, ${obj.type}`;
         filesList.appendChild(li);
     };
-    navigator.serviceWorker.addEventListener('message', async e => {
-        if (e.origin === location.origin) {
-            const fileInfo = await getCachedFile(e.data.fileName);
-            files.push(fileInfo);
-            attachFileItem(fileInfo);
-            URL.revokeObjectURL(fileInfo.url);
-        }
+
+    const files = await getCachedFiles();
+    files.forEach(file => {
+        attachFileItem(file);
+        URL.revokeObjectURL(file);
     });
+
     uploadBtn.addEventListener('click', async () => {
         uploadBtn.disabled = true;
         if (files.length === 0) {
