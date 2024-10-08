@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const getCachedFiles = async () => {
         const cache = await caches.open('upload-files');
         const files = [];
-        const regex = /filename="(.*)"/;
+        const regex = /filename*=UTF-8''(.*)/;
         let index = 0;
         while (true) {
             const cachedResponse = await cache.match(`upload/${index}`);
             if (!cachedResponse) break;
 
             const blob = await cachedResponse.blob();
-            const fileName = cachedResponse.headers.get('Content-Disposition').match(regex)[1];
+            const fileName = decodeURIComponent(cachedResponse.headers.get('Content-Disposition').match(regex)[1]);
             files.push({
                 blob,
                 url: URL.createObjectURL(blob),
