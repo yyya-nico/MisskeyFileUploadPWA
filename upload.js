@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         let hasError = false;
         const url = `${sendTo}/api/drive/files/create`;
-        files.forEach(file => {
+        files.forEach(async file => {
             const form = new FormData();
             form.append('i', token);
             form.append('force', 'true');
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
             options.body = form;
     
-            fetch(url, options)
+            await fetch(url, options)
                 .then(response => {
                     if (response.status !== 200) {
                       console.log('error or no content', response.status);
